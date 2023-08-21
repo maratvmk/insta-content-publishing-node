@@ -5,7 +5,7 @@ dotenv.config();
 const baseURL = 'https://graph.facebook.com/v17.0/';
 
 // To get long term token from short term
-// curl -i -X GET "?&&&"
+// curl -i -X GET "https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=APP_ID&client_secret=APP_SECRET&fb_exchange_token=SHORT_TERM_TOKEN"
 
 const r = axios.create({ baseURL, 
     params: {
@@ -59,7 +59,8 @@ async function postToInstagram(imageUrl, caption) {
     const mediaObjectContainer = await createMediaObjectContainer(instaId, imageUrl, caption);
     console.log('media', mediaObjectContainer);
 
-    const result = await publishMediaObjectContainer(instaId, creation_id)
+    const result = await publishMediaObjectContainer(instaId, mediaObjectContainer.creation_id);
+    console.log('result', result);
 
 }
 

@@ -1,8 +1,11 @@
 import express from "express";
-import { postToInstagram, createLongTermToken } from "./post_to_instagram.js";
+import bodyParser from "body-parser";
 
-const app = express();
+import { postToInstagram, createLongTermToken } from "./post-to-instagram.js";
+
 const PORT = 3000;
+const app = express();
+app.use(bodyParser.json());
 
 // Middleware to log requests
 app.use((req, res, next) => {
@@ -10,18 +13,12 @@ app.use((req, res, next) => {
     next();
 });
 
-// Route for the home page
 app.get('/', (req, res) => {
     res.send('Everything Okey');
 });
 
-// Route for a "about" page
-app.get('/about', (req, res) => {
-    res.send('About page');
-});
-
-app.get('/post', (req, res) => {
-    postToInstagram(req.query.image, req.query.caption);
+app.post('/post', (req, res) => {
+    postToInstagram(req.body.image, req.body.caption);
     res.send('Post page');
 });
 
